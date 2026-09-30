@@ -19,9 +19,11 @@ builder.Services.AddDbContext<ScreenSoundContext>((options) => {
 
 // Adiciona os serviços essenciais do ASP.NET Core Identity API para a classe customizada de usuário 'PessoaComAcesso'
 builder.Services.AddIdentityApiEndpoints<PessoaComAcesso>()
-    // Configura o Entity Framework Core como mecanismo de armazenamento/persistência do Identity, 
-    // indicando que o 'ScreenSoundContext' é o banco de dados responsável por salvar as tabelas de usuários
+    /* Configura o Entity Framework Core como mecanismo de armazenamento/persistência do Identity, 
+     indicando que o 'ScreenSoundContext' é o banco de dados responsável por salvar as tabelas de usuários */
     .AddEntityFrameworkStores<ScreenSoundContext>();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<DAL<Artista>>();
 builder.Services.AddTransient<DAL<Musica>>();
@@ -48,6 +50,8 @@ var app = builder.Build();
 app.UseCors("wasm");
 
 app.UseStaticFiles();
+
+app.UseAuthorization();
 
 app.AddEndPointsArtistas();
 app.AddEndPointsMusicas();
